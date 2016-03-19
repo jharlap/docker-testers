@@ -1,0 +1,10 @@
+FROM golang:1.6.0-alpine
+
+RUN apk --update add mercurial git && rm -rf /var/cache/apk/*
+RUN go get bitbucket.org/tebeka/go2xunit
+
+WORKDIR /go/src
+
+RUN go get github.com/tools/godep
+ENV GO15VENDOREXPERIMENT=0
+CMD godep go test -v ./... | go2xunit
